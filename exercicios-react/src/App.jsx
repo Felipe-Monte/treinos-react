@@ -1,75 +1,40 @@
-// Mostre os dados da aplicação, como aprensetado no vídeo
-// Não utilize CSS externo, use o style para mudar as cores
-// Se a situação estiver ativa pinte de verde, inativa vermelho
-// Se o gasto for maior que 10000 mostre uma mensagem
-
-import { useEffect, useState } from "react";
-
-const luana = {
-  cliente: "Luana",
-  idade: 27,
-  compras: [
-    { nome: "Notebook", preco: "R$ 2500" },
-    { nome: "Geladeira", preco: "R$ 3000" },
-    { nome: "Smartphone", preco: "R$ 1500" },
-  ],
-  ativa: true,
-};
-
-const mario = {
-  cliente: "Mario",
-  idade: 31,
-  compras: [
-    { nome: "Notebook", preco: "R$ 2500" },
-    { nome: "Geladeira", preco: "R$ 3000" },
-    { nome: "Smartphone", preco: "R$ 1500" },
-    { nome: "Guitarra", preco: "R$ 3500" },
-  ],
-  ativa: false,
-};
-
-const TextConditional = ({ isValid, children }) => {
-  const textStyle = {
-    color: isValid ? "green" : "red",
-    fontWeight: "bold",
-  };
-
-  return (
-    <p>
-      Situação: <span style={textStyle}>{children}</span>
-    </p>
-  );
-};
+// Organize os produtos como mostrado no vídeo
+// Mostre apenas produtos que forem mais caros que R$ 1500
+const produtos = [
+  {
+    id: 1,
+    nome: "Smartphone",
+    preco: "R$ 2000",
+    cores: ["#29d8d5", "#252a34", "#fc3766"],
+  },
+  {
+    id: 2,
+    nome: "Notebook",
+    preco: "R$ 3000",
+    cores: ["#ffd045", "#d4394b", "#f37c59"],
+  },
+  {
+    id: 3,
+    nome: "Tablet",
+    preco: "R$ 1500",
+    cores: ["#365069", "#47c1c8", "#f95786"],
+  },
+];
 
 const App = () => {
-  const dados = luana;
-
-  const [totalSpend, setTotalSpend] = useState(0);
-
-  useEffect(() => {
-    const calcTotalSpent = () => {
-      const total = dados.compras.reduce((acumulador, compra) => {
-        let price = Number(compra.preco.replace("R$", ""));
-
-        return acumulador + price;
-      }, 0);
-
-      setTotalSpend(total);
-    };
-
-    calcTotalSpent();
-  }, []);
-
   return (
-    <div>
-      <h2>Nome: {dados.cliente}</h2>
-      <p>Idade: {dados.idade}</p>
-      <TextConditional isValid={dados.ativa}>
-        {dados.ativa ? "Ativo" : "Inativo"}
-      </TextConditional>
-      <p>Total gasto: R$: {totalSpend}</p>
-      {totalSpend > 10000 && <p>"Você está gastando muito"</p>}
-    </div>
+    <section>
+      {produtos.map(({ nome, preco, cores }) => (
+        <div key={nome}>
+          <h1>{nome}</h1>
+          <p>Preço: {preco}</p>
+
+          <ul>
+            {cores.map((color) => <li key={color}>{color}</li>)}
+          </ul>
+        </div>
+      ))}
+    </section>
   );
 };
 
