@@ -22,18 +22,29 @@ const produtos = [
 ];
 
 const App = () => {
+  const newProducts = produtos.map(({ nome, preco, cores }) => ({
+    nome: nome,
+    preco: Number(preco.replace("R$ ", "")),
+    cores: cores,
+  }));
+
   return (
     <section>
-      {produtos.map(({ nome, preco, cores }) => (
-        <div key={nome}>
-          <h1>{nome}</h1>
-          <p>Preço: {preco}</p>
-
-          <ul>
-            {cores.map((color) => <li key={color}>{color}</li>)}
-          </ul>
-        </div>
-      ))}
+      {newProducts.map(({ nome, preco, cores }) =>
+        preco > 1500 ? (
+          <div key={nome}>
+            <h1>{nome}</h1>
+            <p>R$: {preco}</p>
+            <ul>
+              {cores.map((color) => {
+               return <li style={{background: color}} key={color}>{color}</li>
+              })}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )
+      )}
     </section>
   );
 };
