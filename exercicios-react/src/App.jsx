@@ -1,56 +1,16 @@
 import React from "react";
-import RenderItem from "./render-item";
+
+// Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
+// https://ranekapi.origamid.dev/json/api/produto/notebook
+// https://ranekapi.origamid.dev/json/api/produto/smartphone
+// Mostre o nome e preço na tela (separe essa informação em um componente Produto.js)
+// Defina o produto clicado como uma preferência do usuário no localStorage
+// Quando o usuário entrar no site, se existe um produto no localStorage, faça o fetch do mesmo
 
 const App = () => {
-  const [data, setData] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
-
-  const fetchData = (endpoint) => {
-    setLoading(true);
-
-    setTimeout(() => {
-      fetch(endpoint)
-        .then((response) => response.json())
-        .then((json) => {
-          setData(json);
-          setLoading(false);
-        });
-    }, 2000);
-  };
-
   return (
     <div>
-      <button
-        onClick={() =>
-          fetchData("https://ranekapi.origamid.dev/json/api/produto/tablet")
-        }
-      >
-        Tablet
-      </button>
-      <button
-        onClick={() =>
-          fetchData("https://ranekapi.origamid.dev/json/api/produto/smartphone")
-        }
-      >
-        Smartphone
-      </button>
-      <button
-        onClick={() =>
-          fetchData("https://ranekapi.origamid.dev/json/api/produto/notebook")
-        }
-      >
-        Notebook
-      </button>
-
-      {loading && <p>Carregando...</p>}
-      {!loading && data && (
-        <RenderItem
-          name={data.nome}
-          price={data.preco}
-          user={data.usuario_id}
-          sold={data.vendido}
-        />
-      )}
+      <h1>novo exercicio</h1>
     </div>
   );
 };

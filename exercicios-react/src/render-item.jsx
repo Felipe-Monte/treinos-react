@@ -1,15 +1,13 @@
+import React from "react";
 
-import React from 'react'
-
-const RenderItem = ({ name, price, user, sold}) => {
+const RenderItem = ({ data }) => {
   return (
     <div>
-      <h2>Nome: {name}</h2>
-      <p>R$: {price}</p>
-      <p>Usuário: {user}</p>
-      <p>Vendido: {sold}</p>
+      <h2>{data.nome}</h2>
+      <p>R$: {data.preco}</p>
+      <img src={data.fotos[0].src} alt={data.nome} />
     </div>
-  )
-}
+  );
+};
 
-export default RenderItem
+export default RenderItem;
