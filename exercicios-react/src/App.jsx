@@ -13,7 +13,7 @@ const App = () => {
   const [preference, setPreference] = React.useState(
     localStorage.getItem("preference")
   );
-
+  
   async function handleClick(event) {
     const endpoint = event.target.textContent;
 
