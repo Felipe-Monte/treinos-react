@@ -12,12 +12,12 @@ const App = () => {
   const [data, setData] = React.useState(null);
 
   async function handleClick(event) {
-    let endopoint = event.target.textContent;
+    const endpoint = event.target.textContent;
 
-    const fechAPI = await fetch(
-      `https://ranekapi.origamid.dev/json/api/produto/${endopoint}`
+    const fetchAPI = await fetch(
+      `https://ranekapi.origamid.dev/json/api/produto/${endpoint}`
     );
-    const response = await fechAPI.json();
+    const response = await fetchAPI.json();
     setData(response);
   }
 
@@ -25,10 +25,8 @@ const App = () => {
     <div>
       <h1>Preferência: {data && data.nome}</h1>
 
-      <button onClick={() => handleClick(event)}>notebook</button>
-      <button onClick={() => handleClick(event)} style={{ marginLeft: "20px" }}>
-        smartphone
-      </button>
+      <button onClick={handleClick}>notebook</button>
+      <button style={{ marginLeft: "20px" }} onClick={handleClick}>smartphone</button>
 
       {data && <Product data={data} />}
     </div>
