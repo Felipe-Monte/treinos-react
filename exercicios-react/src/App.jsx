@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Product from "./product";
 
 // Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
@@ -10,6 +10,9 @@ import Product from "./product";
 
 const App = () => {
   const [data, setData] = React.useState(null);
+  const [preference, setPreference] = React.useState(
+    localStorage.getItem("preference")
+  );
 
   async function handleClick(event) {
     const endpoint = event.target.textContent;
@@ -19,6 +22,7 @@ const App = () => {
     );
     const response = await fetchAPI.json();
     setData(response);
+    localStorage.setItem("preference", response.nome);
   }
 
   return (
@@ -26,7 +30,9 @@ const App = () => {
       <h1>Preferência: {data && data.nome}</h1>
 
       <button onClick={handleClick}>notebook</button>
-      <button style={{ marginLeft: "20px" }} onClick={handleClick}>smartphone</button>
+      <button style={{ marginLeft: "20px" }} onClick={handleClick}>
+        smartphone
+      </button>
 
       {data && <Product data={data} />}
     </div>
