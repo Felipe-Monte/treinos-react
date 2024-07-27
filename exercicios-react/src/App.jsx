@@ -1,10 +1,10 @@
 import React from "react";
-import Character from "./character";
+import Move from "./move";
 
 const App = () => {
   return (
     <div>
-      <Character />
+      <Move />
     </div>
   );
 };
