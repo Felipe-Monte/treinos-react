@@ -1,32 +1,25 @@
 import React from "react";
 
 const App = () => {
-  const [comments, setComments] = React.useState([]);
-  const [input, setInput] = React.useState("");
-  const inputElement = React.useRef()
+  const [cart, setCart] = React.useState(0);
+  const [message, setMessage] = React.useState(null);
+  const timer = React.useRef();
 
   function handleClick() {
-    setComments([...comments, input]);
-    setInput("")
-    inputElement.current.focus()
+    setCart(cart + 1);
+    setMessage(`Item adicionado ao carrinho`);
+
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setMessage("");
+    }, 2000);
+    console.log(timer.current);
   }
 
   return (
     <div>
-      <h1>Comentários</h1>
-      <ul>
-        {comments.map((comment) => {
-          return <li key={comment}>{comment}</li>;
-        })}
-      </ul>
-      <input
-        type="text"
-        ref={inputElement}
-        value={input}
-        onChange={({ target }) => setInput(target.value)}
-      />
-      <br />
-      <button onClick={handleClick}>Enviar</button>
+      <p>{message}</p>
+      <button onClick={handleClick}>Adicionar {cart}</button>
     </div>
   );
 };
