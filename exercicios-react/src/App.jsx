@@ -1,11 +1,13 @@
 import React from "react";
-import Move from "./move";
+import Product from "./product";
+
+import { GlobalStorage } from "./GlobalContext";
 
 const App = () => {
   return (
-    <div>
-      <Move />
-    </div>
+    <GlobalStorage>
+      <Product />
+    </GlobalStorage>
   );
 };
 
