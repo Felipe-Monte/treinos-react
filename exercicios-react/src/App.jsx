@@ -1,143 +1,93 @@
 import React from "react";
 
-// Mostre uma mensagem na tela, caso a resposta da API seja positiva
+const formFields = [
+  {
+    id: 'nome',
+    label: 'Nome',
+    type: 'text',
+  },
+  {
+    id: 'email',
+    label: 'Email',
+    type: 'email',
+  },
+  {
+    id: 'senha',
+    label: 'Senha',
+    type: 'password',
+  },
+  {
+    id: 'cep',
+    label: 'Cep',
+    type: 'text',
+  },
+  {
+    id: 'rua',
+    label: 'Rua',
+    type: 'text',
+  },
+  {
+    id: 'numero',
+    label: 'Numero',
+    type: 'text',
+  },
+  {
+    id: 'bairro',
+    label: 'Bairro',
+    type: 'text',
+  },
+  {
+    id: 'cidade',
+    label: 'Cidade',
+    type: 'text',
+  },
+  {
+    id: 'estado',
+    label: 'Estado',
+    type: 'text',
+  },
+];
 
 const App = () => {
-  const [form, setForm] = React.useState({
-    name: "",
-    email: "",
-    password: "",
-    zipCode: "",
-    road: "",
-    number: "",
-    local: "",
-    city: "",
-    state: "",
-  });
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [form, setForm] = React.useState(
+    formFields.reduce((acc, field) => {
+      return {
+        ...acc,
+        [field.id]: "",
+      };
+    }, {})
+  );
+  const [response, setResponse] = React.useState(null);
+  
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    fetch("https://ranekapi.origamid.dev/json/api/usuario", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    }).then((response) => {
+      setResponse(response);
+    });
+  }
 
   function handleChange({ target }) {
     const { id, value } = target;
     setForm({ ...form, [id]: value });
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    console.log(form);
-
-    try {
-      const response = await fetch(
-        "https://ranekapi.origamid.dev/json/api/usuario",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form),
-        }
-      );
-
-      const data = await response.json(); // Extrair a resposta JSON
-
-      console.log(response);
-
-      if (response.ok) {
-        console.log("Dados cadastrados com sucesso!", data);
-        setErrorMessage("");
-      } else {
-        setErrorMessage(data.message || "Ocorreu um erro"); // Usar a mensagem de erro da API
-      }
-    } catch (error) {
-      console.error("Erro na requisição", error);
-      setErrorMessage("Erro ao conectar com servidor");
-    }
-  }
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="name">Nome</label>
-      <input
-        id="name"
-        type="text"
-        value={form.name}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="email">Email</label>
-      <input
-        id="email"
-        type="text"
-        value={form.email}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="password">Senha</label>
-      <input
-        id="password"
-        type="password"
-        value={form.password}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="zipCode">Cep</label>
-      <input
-        id="zipCode"
-        type="number"
-        value={form.zipCode}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="road">Rua</label>
-      <input
-        id="road"
-        type="text"
-        value={form.road}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="number">Numero</label>
-      <input
-        id="number"
-        type="number"
-        value={form.number}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="local">Bairro</label>
-      <input
-        id="local"
-        type="text"
-        value={form.local}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="city">Cidade</label>
-      <input
-        id="city"
-        type="text"
-        value={form.city}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="state">Estado</label>
-      <input
-        id="state"
-        type="text"
-        value={form.state}
-        onChange={handleChange}
-        required
-      />
-
-      {errorMessage && <p>{errorMessage}</p>}
-
+      {formFields.map(({ id, label, type }) => (
+        <div key={id}>
+          <label htmlFor={id}>{label}</label>
+          <input type={type} id={id} value={form[id]} onChange={handleChange} />
+        </div>
+      ))}
+      {response && response.ok && <p>formulario enviado!</p>}
       <button>Enviar</button>
     </form>
   );
